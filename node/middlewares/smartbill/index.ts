@@ -161,7 +161,7 @@ export async function saveInvoice(ctx: Context, next: () => Promise<any>) {
     ctx.status = 500
     ctx.body = formatError(e)
 
-    return
+    throw new Error(formatError(e))
   }
 
 

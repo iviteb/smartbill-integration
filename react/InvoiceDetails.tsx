@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useContext } from 'react'
 import { Box, Button, DatePicker, Input, Modal, Link } from 'vtex.styleguide'
 import PropTypes from 'prop-types'
 import { defineMessages } from 'react-intl'
@@ -7,6 +7,7 @@ import axios from 'axios'
 import settings from './settings'
 import styles from './style.css'
 import { requestHeaders } from './utils/constants'
+import { hasError } from 'apollo-client/core/ObservableQuery'
 
 const messages = defineMessages({
   errorRequired: { id: 'admin/order.error-required' },
@@ -20,6 +21,7 @@ const messages = defineMessages({
   invoiceNumber: { id: 'admin/order.invoice-number' },
   invoiceUrl: { id: 'admin/order.invoice-url' },
   data: { id: 'admin/order.data' },
+  invoiceError: {id: 'admin/order.invoice.error'}
 })
 
 export default class InvoiceDetails extends Component<any, any> {
@@ -40,12 +42,16 @@ export default class InvoiceDetails extends Component<any, any> {
       isLoading: false,
       errors: {},
       urlError: null,
+      hasErrors: false
     }
 
     this.invoice = this.invoice.bind(this)
     this.validate = this.validate.bind(this)
     this.validForm = this.validForm.bind(this)
   }
+
+  
+  
 
   copyCodeToClipboard = text => {
     navigator.clipboard.writeText(text)
@@ -56,6 +62,7 @@ export default class InvoiceDetails extends Component<any, any> {
     })
   }
 
+  
   public orderInit() {
     const { order } = this.state
 
@@ -200,6 +207,8 @@ export default class InvoiceDetails extends Component<any, any> {
   }
 
   public async handleInvoice() {
+    
+
     this.setState({ isLoading: true })
     try {
       await axios
@@ -219,10 +228,11 @@ export default class InvoiceDetails extends Component<any, any> {
           )
         })
     } catch (e) {
+      console.log('Error!')
       const errors = { smartbill: [e] }
-
+      console.log('Error!')
       this.props.logError(errors, 'smartbill-errors')
-      this.setState({ errors, modalOpen: true, isLoading: false })
+      this.setState({ errors, modalOpen: true, isLoading: false, hasErrors: true })
     }
   }
 
@@ -247,8 +257,14 @@ export default class InvoiceDetails extends Component<any, any> {
             {formatMessage({ id: messages.save.id })}
           </Button>
         </div>
+        
+      
+          
+          
+        
       </div>
     )
+
   }
 
   handleCloseModal = () => {
@@ -259,6 +275,8 @@ export default class InvoiceDetails extends Component<any, any> {
     const { errors } = this.state
     const { formatMessage } = this.props.intl
 
+    let errorsList = Object.keys(errors).map(key=>errors[key][0].message)
+    console.log('Errors list: ', errors['smartbill']);
     return (
       <Modal
         centered
@@ -283,8 +301,17 @@ export default class InvoiceDetails extends Component<any, any> {
             {formatMessage({ id: messages.errors.id })}
           </p>
           <ul>
-            {Object.keys(errors).map(function(key) {
-              return <li key={key}>{errors[key][0]}</li>
+            {errorsList.map((error) =>{
+              if(error){
+                return(
+                  <li>{formatMessage({ id: messages.invoiceError.id })}: {error}</li>
+                )
+              } else {
+                return(
+                  <li>{formatMessage({ id: messages.invoiceError.id })}</li>
+                )
+              }
+              
             })}
           </ul>
         </div>
@@ -322,6 +349,12 @@ export default class InvoiceDetails extends Component<any, any> {
         </div>
       )
     }
+
+    if(this.state.hasError){
+      <div>Has error!</div>
+    }
+
+
 
     return (
       <div className={`pa6 ${styles.flex05}`}>

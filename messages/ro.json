@@ -37,6 +37,7 @@
   "admin/order.save": "Genereaza",
   "admin/order.close": "Inchide",
   "admin/order.errors": "ERORI",
+  "admin/order.invoice.error": "A aparut o eroare la generarea facturii",
   "admin/order.status.invoice": "Factura fiscala",
   "admin/order.invoice-information": "Informatii facturi",
   "admin/order.invoice-number": "Numar factura",

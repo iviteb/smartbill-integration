@@ -37,6 +37,7 @@
   "admin/order.save": "Generate",
   "admin/order.close": "Close",
   "admin/order.errors": "ERRORS",
+  "admin/order.invoice.error": "There was an error when generating the invoice",
   "admin/order.status.invoice": "Invoice",
   "admin/order.invoice-information": "Invoice informations",
   "admin/order.invoice-number": "Invoice Number",
