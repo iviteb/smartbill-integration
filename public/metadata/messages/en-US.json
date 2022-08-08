@@ -8,7 +8,7 @@
     "Allows you to add shipping costs and taxes to each invoice",
     "Gives you the possibility to adjust VAT value"
   ],
-  "additionalInformation": "This app requires a valid www.smartbill.ro account. The account can be either paid or a free trial account.",
+  "additionalInformation": "This app and all affiliated services are provided 'as is', without warranty of any kind, either express or implied. Neither the publisher nor its partners, affiliates, employees, or contractors guarantee that this app will meet your requirements, provide uninterrupted use, or operate without delay or without error. Neither the publisher nor its partners, affiliates, employees, or contractors assume any responsibility for any errors and malfunctions within the app and will not provide support or maintenance of any kind. All provisions and warranties of any kind, express or implied, including but not limited to any guarantees of performance, process integrity, or particular functionalities, are hereby disclaimed and excluded unless otherwise prohibited or restricted by applicable law. Developed under EE FPA.",
   "websiteURL": "https://smartbill.ro/",
   "support": {
     "url": "https://support.vtex.com/hc/requests"
