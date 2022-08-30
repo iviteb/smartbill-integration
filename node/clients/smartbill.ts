@@ -145,39 +145,6 @@ export default class Smartbill extends ExternalClient {
 
     if(order.changesAttachment) {
       order.changesAttachment.changesData.forEach((change: any) => {
-        if(change.itemsAdded) {
-          change.itemsAdded.forEach((item: any) => {
-            const orderProduct = items.filter((prod: any) => prod.id === item.id && prod.price === item.price);
-
-            if(orderProduct.length) {
-              let [currentProduct] = orderProduct;
-
-              currentProduct = {
-                ...currentProduct,
-                quantity: currentProduct.quantity + item.quantity
-              }
-              items = mergeArrays(items, currentProduct);
-            } else {
-              const currentProduct = {
-                id: item.id,
-                code: Math.floor(Math.random() * 100),
-                currency: order.storePreferencesData.currencyCode,
-                isTaxIncluded: true,
-                measuringUnitName: 'buc',
-                name: item.name,
-                price: item.price,
-                quantity: item.quantity,
-                taxName: 'tax',
-                taxPercentage: settings.smartbillDefaultVATPercentage
-              }
-
-              items.push(currentProduct);
-            }
-
-
-          })
-        }
-
         if(change.itemsRemoved) {
           change.itemsRemoved.forEach((item: any) => {
             const orderProduct = items.filter((prod: any) => prod.id === item.id && prod.price === item.price);
