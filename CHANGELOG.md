@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - removed logic for modified products from the order - solved the error 500 for generating invoices
 
+## [2.2.10] - 2022-08-08
+
+## [2.2.9] - 2022-08-08
+
 ## [2.2.8] - 2022-02-09
 
 ## [2.2.7] - 2022-01-22

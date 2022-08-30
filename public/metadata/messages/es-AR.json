@@ -8,7 +8,7 @@
     "Le permite agregar costos de envío e impuestos a cada factura",
     "Le da la posibilidad de ajustar el valor del IVA"
   ],
-  "additionalInformation": "Esta aplicación requiere una cuenta www.smartbill.ro válida. La cuenta puede ser de pago o una cuenta de prueba gratuita.",
+  "additionalInformation": "Esta aplicación y todos los servicios asociados se proporcionan 'tal cual', sin garantía de ningún tipo, ni expresa ni implícita. Ni el editor ni sus socios, afiliados, empleados o contratistas garantizan que esta aplicación satisfaga sus necesidades, proporcione un uso ininterrumpido o funcione sin retrasos o sin errores. Ni el editor ni sus socios, afiliados, empleados o contratistas asumen ninguna responsabilidad por los errores y el mal funcionamiento de la aplicación y no proporcionarán soporte o mantenimiento de ningún tipo. Todas las disposiciones y garantías de cualquier tipo, expresas o implícitas, incluyendo pero sin limitarse a cualquier garantía de rendimiento, integridad del proceso, o funcionalidades particulares, son por la presente rechazadas y excluidas a menos que se prohíba o restrinja por la ley aplicable. Desarrollado bajo EE FPA.",
   "websiteURL": "https://smartbill.ro/",
   "support": {
     "url": "https://support.vtex.com/hc/requests"
