@@ -2,7 +2,7 @@
   "name": "smartbill",
   "vendor": "vtex",
   "title": "SmartBill Integration",
-  "version": "2.2.10",
+  "version": "2.2.11",
   "description": "SmartBill Integration",
   "billingOptions": {
     "termsURL": "https://compliance.vtex.com/gdpr/policies/vtex-privacy-policy",
