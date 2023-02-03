@@ -95,9 +95,6 @@
       "name": "ShippingAction"
     },
     {
-      "name": "OMSViewer"
-    },
-    {
       "name": "RefundAction"
     },
     {
@@ -133,6 +130,9 @@
     {
       "name": "OMSViewer"
     },
+    {
+       "name": "ListOrders"
+     },
     {
       "name": "ADMIN_DS"
     },
