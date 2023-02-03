@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+- added ListOrders to the policies
+
 ## [2.2.11] - 2022-09-02
 - removed logic for modified products from the order - solved the error 500 for generating invoices
 
