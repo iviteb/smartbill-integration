@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.2.12] - 2023-02-03
+
 - added ListOrders to the policies
 
 ## [2.2.11] - 2022-09-02
