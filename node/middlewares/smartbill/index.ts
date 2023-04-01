@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { json } from 'co-body'
 import SimpleCrypto from 'simple-crypto-js'
@@ -55,6 +56,7 @@ export async function processChanges(ctx: any, item: any, order: any) {
       let imageUrl = ''
 
       if (!existingProduct.length) {
+        // eslint-disable-next-line no-await-in-loop
         const { sku, existingSku } = await getSkuWithVariations(
           added.id.toString(),
           ctx
@@ -98,7 +100,7 @@ export async function saveInvoice(ctx: Context, next: () => Promise<any>) {
     logger?.error({
       message: 'SAVE-INVOICE-ERROR',
       error: formatError(e),
-      orderId
+      orderId,
     })
     ctx.status = 500
     ctx.body = formatError(e)
@@ -108,9 +110,9 @@ export async function saveInvoice(ctx: Context, next: () => Promise<any>) {
 
   if (order?.status === 'invoiced') {
     logger.info({
-      message: "Order already invoiced",
+      message: 'Order already invoiced',
       order,
-      orderId
+      orderId,
     })
     ctx.status = 304
     ctx.body = 'Order already invoiced'
@@ -120,24 +122,29 @@ export async function saveInvoice(ctx: Context, next: () => Promise<any>) {
 
   if (order?.changesAttachment) {
     for (const item of order?.changesAttachment?.changesData) {
+      // eslint-disable-next-line no-await-in-loop
       await processChanges(ctx, item, order)
     }
   }
 
-  const ship = order?.totals?.filter(function (item: any) {
-    return item.id === settings.constants.shipping
-  })
-
-  const shipping = ship.length ? ship[0].value : 0
+  const shippingTotal = order?.shippingData?.logisticsInfo?.reduce(
+    (acc: number, item: { listPrice: number }) => {
+      return acc + item.listPrice / settings.constants.price_multiplier
+    },
+    0
+  )
 
   order = {
     ...order,
-    shippingTotal: shipping / settings.constants.price_multiplier,
+    shippingTotal,
     items: order.items.map((item: any) => {
       return {
         ...item,
-        sellingPrice:
-          (item.sellingPrice + item.tax) / settings.constants.price_multiplier,
+        listPrice:
+          (item.listPrice + item.tax) / settings.constants.price_multiplier,
+        discount:
+          (item.listPrice - item.price + item.tax) /
+          settings.constants.price_multiplier,
       }
     }),
   }
@@ -150,8 +157,8 @@ export async function saveInvoice(ctx: Context, next: () => Promise<any>) {
       { corporateAddress, city, county }
     )
 
-    number = responseEncryptedNumber.number
-    encryptedNumber = responseEncryptedNumber.encryptedNumber
+    number = responseEncryptedNumber?.number
+    encryptedNumber = responseEncryptedNumber?.encryptedNumber
   } catch (e) {
     logger.error({
       middleware: 'GET ENCRYPTED NUMBER',
@@ -163,7 +170,6 @@ export async function saveInvoice(ctx: Context, next: () => Promise<any>) {
 
     throw new Error(formatError(e))
   }
-
 
   const url = `https://${ctx.vtex.account}.myvtex.com/smartbill/show-invoice/${encryptedNumber}`
 
@@ -189,7 +195,6 @@ export async function saveInvoice(ctx: Context, next: () => Promise<any>) {
       invoiceDate: data.issuanceDate,
       invoiceUrl: data.invoiceUrl,
     }
-
   } catch (e) {
     logger.error({
       middleware: 'SAVE-INVOICE',

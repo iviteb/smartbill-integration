@@ -1,8 +1,8 @@
 {
   "name": "smartbill",
-  "vendor": "vtex",
+  "vendor": "infinityro",
   "title": "SmartBill Integration",
-  "version": "2.2.12",
+  "version": "0.0.1",
   "description": "SmartBill Integration",
   "billingOptions": {
     "termsURL": "https://compliance.vtex.com/gdpr/policies/vtex-privacy-policy",
@@ -10,9 +10,7 @@
       "url": "https://support.vtex.com/hc/requests"
     },
     "type": "free",
-    "availableCountries": [
-      "ROU"
-    ]
+    "availableCountries": ["ROU"]
   },
   "mustUpdateAt": "2022-08-28",
   "categories": [],
