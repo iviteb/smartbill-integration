@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Switched to infinityro vendor
+
 ## [2.2.12] - 2023-02-03
 
 - added ListOrders to the policies
