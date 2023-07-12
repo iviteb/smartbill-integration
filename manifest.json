@@ -188,6 +188,12 @@
         "type": "string",
         "default": "shipping-tax"
       },
+      "invoiceChangesProductCode": {
+        "title": "Admin changes product code",
+        "description": "Code of the admin changes cost product that will appear on the invoice (ex: added x lei)",
+        "type": "string",
+        "default": "admin-adjustment"
+      },
       "useVtexProductTaxValue": {
         "title": "Use VTEX priceTags",
         "description": "Use VTEX priceTags VAT percentage if available",

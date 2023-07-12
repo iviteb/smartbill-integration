@@ -7,7 +7,6 @@ import { validate } from 'validate.js'
 
 import constants, { settings as settingsConstants } from '../constants'
 import type { AddressForm, TaxName } from '../typings'
-import { mergeArrays } from '../helpers'
 
 export default class Smartbill extends ExternalClient {
   private static getBuffer(settings: any) {
@@ -112,7 +111,7 @@ export default class Smartbill extends ExternalClient {
   public async generateProducts(order: any, settings: any) {
     const productTaxNames = await this.getTaxCodeName(settings)
 
-    let items: any[] = []
+    const items: any[] = []
 
     order.items.forEach((item: any) => {
       const taxCode = item.taxCode || settings.smartbillDefaultVATPercentage
@@ -162,36 +161,52 @@ export default class Smartbill extends ExternalClient {
       }
     })
 
-    if (order.changesAttachment) {
-      order.changesAttachment.changesData.forEach((change: any) => {
-        if (change.itemsRemoved) {
-          change.itemsRemoved.forEach((item: any) => {
-            const orderProduct = items.filter(
-              (prod: any) => prod.id === item.id && prod.price === item.price
-            )
-
-            if (orderProduct.length) {
-              let [currentProduct] = orderProduct
-
-              if (currentProduct.quantity - item.quantity) {
-                currentProduct = {
-                  ...currentProduct,
-                  quantity: currentProduct.quantity - item.quantity,
-                }
-                items = mergeArrays(items, currentProduct)
-              } else {
-                items = items.filter((product: any) => product.id !== item.id)
-              }
-            }
-          })
-        }
-      })
-    }
-
     const taxName = this.generateTaxName(
       productTaxNames.taxes,
       settings.smartbillDefaultVATPercentage
     )
+
+    // Here we tackle the situation where there is only a value change
+    if (order.changesAttachment) {
+      order.changesAttachment.changesData.forEach((change: ChangesDataItem) => {
+        const {
+          itemsRemoved,
+          itemsAdded,
+          reason,
+          discountValue,
+          incrementValue,
+        } = change
+
+        if (!itemsRemoved?.length && !itemsAdded?.length) {
+          const isDiscount = Boolean(discountValue)
+
+          items.push({
+            code: settings.invoiceChangesProductCode,
+            currency: order.storePreferencesData.currencyCode,
+            isTaxIncluded: true,
+            measuringUnitName: constants.measuringUnitName,
+            name: reason,
+            quantity: 1,
+            taxName,
+            taxPercentage: settings.smartbillDefaultVATPercentage,
+            ...(isDiscount
+              ? {
+                  isDiscount,
+                  discountType: 1,
+                  discountValue:
+                    -discountValue /
+                    settingsConstants.constants.price_multiplier,
+                }
+              : {
+                  quantity: 1,
+                  price:
+                    incrementValue /
+                    settingsConstants.constants.price_multiplier,
+                }),
+          })
+        }
+      })
+    }
 
     if (
       settings.invoiceShippingCost &&
@@ -215,7 +230,7 @@ export default class Smartbill extends ExternalClient {
 
     const discounts =
       order.ratesAndBenefitsData.rateAndBenefitsIdentifiers.reduce(
-        (acc: any, { id, name }: any) => {
+        (acc: any, { id, name, quantity }: any) => {
           let value = 0
 
           order.items.forEach((item: any) => {
@@ -230,12 +245,12 @@ export default class Smartbill extends ExternalClient {
             }
           })
 
-          return [...acc, { id, value, name }]
+          return [...acc, { id, value, name, quantity }]
         },
         []
       )
 
-    discounts.forEach(({ id, name, value }: any) => {
+    discounts.forEach(({ id, name, value, quantity }: any) => {
       if (value !== 0) {
         items.push({
           code: id,
@@ -243,7 +258,7 @@ export default class Smartbill extends ExternalClient {
           isTaxIncluded: true,
           measuringUnitName: constants.measuringUnitName,
           name,
-          quantity: 1,
+          quantity,
           taxName,
           taxPercentage: settings.smartbillDefaultVATPercentage,
           isDiscount: true,
@@ -290,6 +305,7 @@ export default class Smartbill extends ExternalClient {
     address?: AddressForm
   ): Promise<any> {
     const settings = await this.getSettings()
+
     const response = await this.generateInvoice(body, address)
 
     const simpleCrypto = new SimpleCrypto(settings.smarbillApiToken)

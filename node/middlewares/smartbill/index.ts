@@ -212,17 +212,26 @@ export async function saveInvoice(ctx: Context, next: () => Promise<any>) {
 
 export async function removeItems(itemsToRemove: any, order: any) {
   for (const removed of itemsToRemove) {
-    const existingRemovedProduct = order?.items?.filter((it: any) => {
-      return it.id === removed.id
-    })
+    let productIndex
+    const existingRemovedProduct = order?.items?.find(
+      (item: any, itemIndex: number) => {
+        if (item.id === removed.id) {
+          productIndex = itemIndex
 
-    if (existingRemovedProduct.length) {
-      if (existingRemovedProduct[0].quantity - removed.quantity === 0) {
-        const index = order?.items?.indexOf(existingRemovedProduct[0])
-
-        if (index !== -1) {
-          order?.items.splice(index, 1)
+          return true
         }
+
+        return false
+      }
+    )
+
+    if (existingRemovedProduct) {
+      const newQuantity = existingRemovedProduct.quantity - removed.quantity
+
+      if (newQuantity === 0) {
+        order?.items.splice(productIndex, 1)
+      } else {
+        order.items[productIndex as unknown as number].quantity = newQuantity
       }
     }
   }
