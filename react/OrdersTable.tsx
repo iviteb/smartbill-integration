@@ -96,12 +96,8 @@ class OrdersTable extends Component<any, any> {
   }
 
   hasFiltersApplied() {
-    const {
-      f_status,
-      f_shippingEstimate,
-      searchValue,
-      f_orderDate,
-    } = this.state
+    const { f_status, f_shippingEstimate, searchValue, f_orderDate } =
+      this.state
 
     return (
       f_status !== null ||
@@ -162,17 +158,11 @@ class OrdersTable extends Component<any, any> {
 
   getItems() {
     this.setState({ tableIsLoading: true })
-    const {
-      paging,
-      f_shippingEstimate,
-      f_status,
-      searchValue,
-      f_orderDate,
-    } = this.state
+    const { paging, f_shippingEstimate, f_status, searchValue, f_orderDate } =
+      this.state
 
-    let url = `/api/oms/pvt/orders?page=${paging.currentPage}&per_page=${
-      paging.perPage
-    }&_=${Date.now()}`
+    let url = `/api/oms/pvt/orders?page=${paging.currentPage}&per_page=${paging.perPage
+      }&_=${Date.now()}`
 
     if (f_shippingEstimate !== null) {
       url += `&f_shippingEstimate=${f_shippingEstimate}`
@@ -210,7 +200,7 @@ class OrdersTable extends Component<any, any> {
         .then(() => {
           const { items, async } = this.state
 
-          Object.keys(items).forEach(function(key) {
+          Object.keys(items).forEach(function (key) {
             fetch(`/api/oms/pvt/orders/${items[key].orderId}/?_=${Date.now()}`)
               .then(res => res.json())
               .then(json => {
@@ -245,7 +235,7 @@ class OrdersTable extends Component<any, any> {
                 }
 
                 if (json.totals.length) {
-                  const ship = json.totals.filter(function(item) {
+                  const ship = json.totals.filter(function (item) {
                     return item.id === 'Shipping'
                   })
 
@@ -254,7 +244,7 @@ class OrdersTable extends Component<any, any> {
                   }
                 }
 
-                const orderIndex = items.findIndex(function(item) {
+                const orderIndex = items.findIndex(function (item) {
                   return item.orderId == json.orderId
                 })
 
@@ -334,7 +324,7 @@ class OrdersTable extends Component<any, any> {
             const tagColor = cellData === 'invoiced' ? 'blue' : 'green'
             let extraMessage
 
-            const data = this.state.async.filter(function(item) {
+            const data = this.state.async.filter(function (item) {
               return item.orderId === rowData.orderId
             })
 
@@ -355,7 +345,7 @@ class OrdersTable extends Component<any, any> {
         invoiceLink: {
           title: formatMessage({ id: messages.invoiceLink.id }),
           cellRenderer: ({ rowData }) => {
-            const data = this.state.async.filter(function(item) {
+            const data = this.state.async.filter(function (item) {
               return item.orderId === rowData.orderId
             })
 
@@ -434,12 +424,12 @@ class OrdersTable extends Component<any, any> {
 
     return (
       <div>
-        <div className={`flex justify-end`}>
-          <div className={`ma3`}></div>
+        <div className="flex justify-end">
+          <div className="ma3" />
         </div>
         <div className={`flex items-center ${styles.tableHeaderButtons}`}>
           {this.hasFiltersApplied() && (
-            <div className={`ma3`}>
+            <div className="ma3">
               <ButtonWithIcon
                 variation="secondary"
                 size="small"
@@ -449,7 +439,7 @@ class OrdersTable extends Component<any, any> {
               </ButtonWithIcon>
             </div>
           )}
-          <div className={`ma3`}>
+          <div className="ma3">
             <DatePicker
               size="small"
               placeholder={formatMessage({ id: messages.date.id })}
@@ -458,7 +448,7 @@ class OrdersTable extends Component<any, any> {
               locale="en-GB"
             />
           </div>
-          <div className={`ma3`}>
+          <div className="ma3">
             <ActionMenu
               label={formatMessage({ id: messages.filterStatus.id })}
               align="right"

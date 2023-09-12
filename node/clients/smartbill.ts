@@ -151,12 +151,12 @@ export default class Smartbill extends ExternalClient {
           isTaxIncluded: true,
           measuringUnitName: constants.measuringUnitName,
           name: `Reducere ${skuName}`,
-          quantity: item.quantity,
+          numberOfItems: 1,
           taxName,
           taxPercentage: vatPercent,
           isDiscount: true,
           discountType: 1,
-          discountValue: -item.discount,
+          discountValue: -item.discount * item.quantity,
         })
       }
     })
@@ -250,7 +250,7 @@ export default class Smartbill extends ExternalClient {
         []
       )
 
-    discounts.forEach(({ id, name, value, quantity }: any) => {
+    discounts.forEach(({ id, name, value }: any) => {
       if (value !== 0) {
         items.push({
           code: id,
@@ -258,7 +258,7 @@ export default class Smartbill extends ExternalClient {
           isTaxIncluded: true,
           measuringUnitName: constants.measuringUnitName,
           name,
-          quantity,
+          numberOfItems: 1,
           taxName,
           taxPercentage: settings.smartbillDefaultVATPercentage,
           isDiscount: true,
