@@ -145,19 +145,21 @@ export default class Smartbill extends ExternalClient {
       })
 
       if (item.discount && item.discount > 0) {
-        items.push({
-          code: item.uniqueId,
-          currency: order.storePreferencesData.currencyCode,
-          isTaxIncluded: true,
-          measuringUnitName: constants.measuringUnitName,
-          name: `Reducere ${skuName}`,
-          numberOfItems: 1,
-          taxName,
-          taxPercentage: vatPercent,
-          isDiscount: true,
-          discountType: 1,
-          discountValue: -item.discount * item.quantity,
-        })
+        for(let i = 0; i < item.quantity; i++) {
+          items.push({
+            code: item.uniqueId,
+            currency: order.storePreferencesData.currencyCode,
+            isTaxIncluded: true,
+            measuringUnitName: constants.measuringUnitName,
+            name: `Reducere ${skuName}`,
+            numberOfItems: 1,
+            taxName,
+            taxPercentage: vatPercent,
+            isDiscount: true,
+            discountType: 1,
+            discountValue: -item.discount,
+          })
+        }
       }
     })
 
