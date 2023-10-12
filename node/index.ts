@@ -1,11 +1,20 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line prettier/prettier
-import type { ClientsConfig, ParamsContext, RecorderState, ServiceContext } from '@vtex/api'
+import type {
+  ClientsConfig,
+  ParamsContext,
+  RecorderState,
+  ServiceContext,
+} from '@vtex/api'
 import { LRUCache, method, Service } from '@vtex/api'
 
 import { Clients } from './clients'
-import { generateInvoice, saveInvoice, showInvoice } from './middlewares/smartbill'
-import {getProductVariation, getSkuById} from "./middlewares/catalog"
+import {
+  generateInvoice,
+  saveInvoice,
+  showInvoice,
+} from './middlewares/smartbill'
+import { getProductVariation, getSkuById } from './middlewares/catalog'
 
 const TIMEOUT_MS = 5000
 
@@ -48,7 +57,7 @@ export default new Service<Clients, State<never>, ParamsContext>({
       GET: getProductVariation,
     }),
     saveInvoice: method({
-      POST: [saveInvoice]
-    })
+      POST: [saveInvoice],
+    }),
   },
 })

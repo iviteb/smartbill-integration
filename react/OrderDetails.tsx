@@ -103,7 +103,7 @@ class OrderDetails extends Component<any, any> {
 
     if (order.paymentData.giftCards.length) {
       totalOrderDiscount += order.paymentData.transactions[0].payments.reduce(
-        function(result, it) {
+        function (result, it) {
           if (it.redemptionCode) {
             result -= it.value
             giftCards.push({
@@ -216,7 +216,7 @@ class OrderDetails extends Component<any, any> {
     }
 
     if (!trackingNumber && order.status === settings.constants.invoiced) {
-      const totalWeight = order.items.reduce(function(result, item) {
+      const totalWeight = order.items.reduce(function (result, item) {
         result += item.additionalInfo.dimension.weight * item.quantity
 
         return result
@@ -349,7 +349,7 @@ class OrderDetails extends Component<any, any> {
         )
       }
 
-      const ship = order.totals.filter(function(item) {
+      const ship = order.totals.filter(function (item) {
         return item.id === settings.constants.shipping
       })
 
@@ -404,9 +404,8 @@ class OrderDetails extends Component<any, any> {
       return (
         <div className={`pa6 ${styles.flex05}`}>
           <Box
-            title={`${formatMessage({ id: messages.order.id })}#${
-              order.orderId
-            }`}
+            title={`${formatMessage({ id: messages.order.id })}#${order.orderId
+              }`}
           >
             <div className={`flex flex-row ${styles.flex1}`}>
               <div>
@@ -416,9 +415,9 @@ class OrderDetails extends Component<any, any> {
                   </span>
                 </Tag>
               </div>
-              <div className={`ml2`}>
+              <div className="ml2">
                 <Tag bgColor="green" color="#fff">
-                  <span className={`nowrap`}>
+                  <span className="nowrap">
                     {formatMessage({ id: messages.paymentMethod.id })} -{' '}
                     {
                       order.paymentData.transactions[0].payments[0]
@@ -446,6 +445,7 @@ class OrderDetails extends Component<any, any> {
                           if (this.state.changedItems[item.id] < 0) {
                             quantity += this.state.changedItems[item.id]
                           }
+
                           if (!quantity) {
                             return false
                           }
@@ -491,7 +491,7 @@ class OrderDetails extends Component<any, any> {
                             className={`pa2 flex flex-row ${styles.flex1}`}
                           >
                             <div className={`${styles.flex01}`}>
-                              <img src={item.imageUrl} alt={'Image'} />
+                              <img src={item.imageUrl} alt="Image" />
                             </div>
 
                             <div
@@ -623,7 +623,7 @@ class OrderDetails extends Component<any, any> {
             onClose={this.closeModal}
             bottomBar={
               <div className="nowrap">
-                <span className={`mr4`}>
+                <span className="mr4">
                   <Button
                     variation="danger"
                     size="small"
@@ -636,11 +636,11 @@ class OrderDetails extends Component<any, any> {
             }
           >
             <div>
-              <p className={`f3 f3-ns fw3 gray`}>
+              <p className="f3 f3-ns fw3 gray">
                 {formatMessage({ id: messages.errors.id })}
               </p>
               <ul>
-                {Object.keys(errors).map(function(key) {
+                {Object.keys(errors).map(function (key) {
                   if (errors[key].hasOwnProperty('details')) {
                     return errors[key].details.map(msg => {
                       return <li key={key}>{msg}</li>

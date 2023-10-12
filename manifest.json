@@ -10,7 +10,9 @@
       "url": "https://support.vtex.com/hc/requests"
     },
     "type": "free",
-    "availableCountries": ["ROU"]
+    "availableCountries": [
+      "ROU"
+    ]
   },
   "mustUpdateAt": "2022-08-28",
   "categories": [],
@@ -187,6 +189,12 @@
         "description": "Code of the shipping cost product that will appear on the invoice",
         "type": "string",
         "default": "shipping-tax"
+      },
+      "invoiceChangesProductCode": {
+        "title": "Admin changes product code",
+        "description": "Code of the admin changes cost product that will appear on the invoice (ex: added x lei)",
+        "type": "string",
+        "default": "admin-adjustment"
       },
       "useVtexProductTaxValue": {
         "title": "Use VTEX priceTags",
