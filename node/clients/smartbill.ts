@@ -128,16 +128,17 @@ export default class Smartbill extends ExternalClient {
       }
 
       const taxName = this.generateTaxName(productTaxNames.taxes, vatPercent)
-      const skuName = order?.itemMetadata?.Items?.find(
+      const skuInfo = order?.itemMetadata?.Items?.find(
         (itemMetaData: any) => itemMetaData.Id === item.id
-      )?.SkuName
+      )
 
       items.push({
         code: item.uniqueId,
         currency: order.storePreferencesData.currencyCode,
         isTaxIncluded: true,
         measuringUnitName: constants.measuringUnitName,
-        name: skuName ?? item.name,
+        name: skuInfo?.SkuName ?? item.name,
+        productDescription: skuInfo?.RefId ?? item.refId,
         price: item.listPrice,
         quantity: item.quantity,
         taxName,
