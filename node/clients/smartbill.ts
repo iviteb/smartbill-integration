@@ -152,7 +152,7 @@ export default class Smartbill extends ExternalClient {
             currency: order.storePreferencesData.currencyCode,
             isTaxIncluded: true,
             measuringUnitName: constants.measuringUnitName,
-            name: `Reducere ${skuName}`,
+            name: `Reducere ${skuInfo?.SkuName}`,
             numberOfItems: 1,
             taxName,
             taxPercentage: vatPercent,
