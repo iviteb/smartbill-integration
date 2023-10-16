@@ -131,6 +131,7 @@ export default class Smartbill extends ExternalClient {
       const skuInfo = order?.itemMetadata?.Items?.find(
         (itemMetaData: any) => itemMetaData.Id === item.id
       )
+      const itemRefId = skuInfo?.RefId ?? item.refId
 
       items.push({
         code: item.uniqueId,
@@ -138,7 +139,7 @@ export default class Smartbill extends ExternalClient {
         isTaxIncluded: true,
         measuringUnitName: constants.measuringUnitName,
         name: skuInfo?.SkuName ?? item.name,
-        productDescription: skuInfo?.RefId ?? item.refId,
+        productDescription: `Cod produs: ${itemRefId}`,
         price: item.listPrice,
         quantity: item.quantity,
         taxName,
