@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.0.3] - 2023-10-17
+
 ### Added
 - Sku RefId as product description
 ## [0.0.2] - 2023-10-12
