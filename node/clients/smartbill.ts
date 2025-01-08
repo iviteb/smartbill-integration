@@ -37,6 +37,7 @@ export default class Smartbill extends ExternalClient {
       country: constants.country,
       email,
       name: `${client.lastName} ${client.firstName}`,
+      vatCode: client.document || '0000000000000',
       address: addressForm?.corporateAddress
         ? addressForm.corporateAddress
         : `${address.street} ${address.number}`,
